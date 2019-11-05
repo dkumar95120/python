@@ -29,15 +29,48 @@ class Node:
         if bool(self.right):
             self.right.print()
         return
+# print BFS
+    def printBFS(self):
+        q=[]
+        visited=set()
+        q=[self]
+        while q:
+            s = q.pop(0)
+            if s not in visited:
+                visited.add(s)
+                print(s.info, end=' ')
+            if s.left:
+                q.extend([s.left])
+            if s.right:
+                q.extend([s.right])
+        print()
+
+    def height(self):
+        hl = self.left.height() if self.left else 0
+        hr = self.right.height() if self.right else 0
+        h = max(hl,hr) + 1
+        print('Node', self.info, 'h =',h)
+        return h
+        #return -1 if (hl < 0) or (hr < 0) or (abs(hl - hr) > 1) else max(hl,hr) + 1
 
 # depth function to compute tree depth
-    def depth(self, h):
-        hl = hr = h
-        if bool(self.left):
-            hl = self.left.depth(h+1)
-        if bool(self.right):
-            hr = self.right.depth(h+1)
+    def depth(self, h=0):
+        print('Node', self.info, 'd =', h)
+        hl = self.left.depth(h+1) if bool(self.left) else h
+        hr = self.right.depth(h+1) if bool(self.right) else h
         return max(hl,hr)
+
+    def isBST (self, node, min, max):
+        if node == None:
+            return True
+        if node.info < min or node.info > max:
+            return False
+        return self.isBST(node.left, min, node.info) and self.isBST(node.right, node.info+1, max)
+
+def isBST (node):
+    INF = 1.e10
+    return node.isBST(node, -INF, INF)
+
 
 def getNode (cur, value):
     if cur == None:
@@ -97,4 +130,3 @@ def lca (cur, v1, v2):
         else:
             break
     return cur
-
