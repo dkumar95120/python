@@ -1,0 +1,3 @@
+The 8th fib number is 21
+The 10th fib number is 55
+The 11th fib number is 89
