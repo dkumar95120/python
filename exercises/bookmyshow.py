@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta
-
+confirmation_code = ""
 def prRed(text): print("\033[91m {}\033[00m" .format(text))
 def prGreen(text): print("\033[92m {}\033[00m" .format(text))
 
@@ -133,7 +133,7 @@ class Complex(object):
         self.patrons.append(patron)
         return patron
 
-    def update_patron(patron):
+    def update_patron(self, patron):
         for p in self.patrons:
             if p.name == patron.name:
                 self.patrons.remove(p)
