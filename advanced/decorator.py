@@ -1,41 +1,59 @@
+""" decorator example """
+
 from functools import wraps
-from inspect import getsource, getfile
 from time import time
 
+
 def timer(func):
-	@wraps(func)
-	def f(*args, **kwargs):
-		before = time()
-		rv = func(*args, **kwargs)
-		after = time()
-		print('elapsed', after - before)
-		return rv
-	return f
+    """ Time a call to the given function
+
+    Arguments:
+        func -- function to time
+
+    Returns:
+        time -- time took to run the given function
+    """
+    @wraps(func)
+    def f(*args, **kwargs):
+        before = time()
+        rv = func(*args, **kwargs)
+        after = time()
+        print('elapsed', after - before)
+        return rv
+    return f
+
+
 @timer
-def add(x=5,y=10):
-	'adds two numbers'
-	return x+y
+def add(x_var=5, y_var=10):
+    """ adds two numbers """
+    return x_var + y_var
+
 
 class Trace:
-	def __init__(self):
-		self.enabled = True
+    """ Trace called function """
 
-	def __call__(self,f):
-		@wraps(f)
-		def wrap (*args, **kwargs):
-			if self.enabled:
-				print('Calling {}'.format(f.__name__))
-			return f(*args, **kwargs)
-		return wrap
+    def __init__(self):
+        self.enabled = True
+
+    def __call__(self, func):
+        @wraps(func)
+        def wrap(*args, **kwargs):
+            if self.enabled:
+                print('Calling {}'.format(func.__name__))
+            return f(*args, **kwargs)
+        return wrap
+
 
 tracer = Trace()
 
-@tracer
-def rotate_list(l):
-	'rotate given list from left'
-	return l[1:] + [l[0]]
 
-l = [1,2,3,4]
+@tracer
+def rotate_list(lst):
+    """ rotate given list from left """
+    return lst[1:] + [lst[0]]
+
+
+l = [1, 2, 3, 4]
 l = rotate_list(l)
 print(l)
 l = rotate_list(l)
@@ -45,5 +63,3 @@ l = rotate_list(l)
 print(l)
 l = rotate_list(l)
 print(l)
-
-
